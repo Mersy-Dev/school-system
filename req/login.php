@@ -46,19 +46,18 @@ if (
             $username = $user['username'];
             $password = $user['password'];
             $fname = $user['fname'];
-            $id = $user['id'];
-
             if ($username === $uname) {
                 if (password_verify($pass, $password)) {
-                   
+
                     $_SESSION['fname'] = $fname;
                     $_SESSION['role'] = $role;
-                    $_SESSION['id'] = $id;
+                    if ($role == "Admin") {
+                        $id = $user['admin_id'];
+                        $_SESSION['admin_id'] = $id;
 
-                    $em = "Login Successful";
-                    header("Location: ../home.php?success=$em");
-                    exit;
-
+                        header("Location: ../admin/index.php");
+                        exit;
+                    }
                 } else {
                     $em = "Username or Password is incorrect";
                     header("Location: ../login.php?error=$em");
