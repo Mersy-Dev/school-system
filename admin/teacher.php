@@ -1,6 +1,10 @@
 <?php
 session_start();
-if (isset($_SESSION["admin_id"]) && $_SESSION["role"]) {
+if (
+    isset($_SESSION["admin_id"]) &&
+    isset($_SESSION["role"])
+) {
+
     if ($_SESSION["role"] == "Admin") {
         include "../DB-connection.php";
         include "data/teacher.php";
@@ -36,7 +40,19 @@ if (isset($_SESSION["admin_id"]) && $_SESSION["role"]) {
 
                 <div class="container mt-5">
                     <a href="teacher-add.php" class="btn btn-dark">Add New Teacher</a>
+                    <?php if (isset($_GET['error'])) { ?>
+                        <div class='alert alert-danger mt-3 n-table' role='alert'>
+                            <?= $_GET['error'] ?>
+                        </div>
 
+                    <?php } ?>
+
+                    <?php if (isset($_GET['success'])) { ?>
+                        <div class='alert alert-info mt-3 n-table' role='alert'>
+                            <?= $_GET['success'] ?>
+                        </div>
+
+                    <?php } ?>
                     <div class="table-responsive">
                         <table class="table table-bordered mt-3 n-table">
                             <thead>
@@ -82,15 +98,15 @@ if (isset($_SESSION["admin_id"]) && $_SESSION["role"]) {
                                             foreach ($grades as $grade) {
                                                 $g_temp = getGradeById($grade, $conn);
                                                 if ($g_temp != 0)
-                                                    $g .= $g_temp['grade_code'] . '- ' . 
-                                                    $g_temp['grade'] . ', ';
+                                                    $g .= $g_temp['grade_code'] . '- ' .
+                                                        $g_temp['grade'] . ', ';
                                             }
                                             echo $g;
                                             ?>
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-primary">Edit</a>
-                                            <a href="" class="btn btn-danger">Delete</a>
+                                            <a href="teacher-edit.php?teacher_id=<?= $teacher['teacher_id'] ?>" class="btn btn-primary">Edit</a>
+                                            <a href="teacher-delete.php?teacher_id=<?= $teacher['teacher_id'] ?>" class="btn btn-danger">Delete</a>
 
                                         </td>
 
