@@ -18,14 +18,20 @@
                     <a class="nav-link" href="student.php">Students </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Registrar-Office </a>
+                    <a class="nav-link" href="grade.php">Grades </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Section </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Class </a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Sections </a>
+                    <a class="nav-link" href="#contact">Registrar-Office </a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Schedule </a>
                 </li>

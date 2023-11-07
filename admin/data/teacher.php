@@ -40,7 +40,7 @@ function unameIsUnique($uname, $conn, $teacher_id = 0)
     $stmt = $conn->prepare($sql);
     $stmt->execute([$uname]);
 
-    if ($teacher_id >= 0) {
+    if ($teacher_id == 0) {
         if ($stmt->rowCount() >= 1) {
             return 0;
         } else {
@@ -57,6 +57,31 @@ function unameIsUnique($uname, $conn, $teacher_id = 0)
         } else {
             return 1;
         }   
+    }
+}
+
+
+//search
+function searchTeachers($key, $conn)
+{
+    $key = preg_replace('/(?<!\\\)([%_])/', '\\\$1', $key);
+    $sql = "SELECT * FROM teachers 
+                    WHERE teacher_id LIKE ? 
+                    OR fname LIKE ? 
+                    OR lname LIKE ? 
+                    OR username LIKE ?
+                    OR address LIKE ?
+                    OR date_of_birth LIKE ?
+                    OR phone_number LIKE ?
+                    OR qualification LIKE ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$key, $key, $key, $key, $key, $key, $key, $key]);
+
+    if ($stmt->rowCount() == 1) {
+        $teachers = $stmt->fetchAll();
+        return $teachers;
+    } else {
+        return 0;
     }
 }
 

@@ -34,3 +34,17 @@ function getGradeById($grade_id, $conn)
 
 
 }
+
+//delete teacher by id
+function deleteGrade($id, $conn)
+{
+    $sql = "DELETE FROM grades WHERE grade_id=? ";
+    $stmt = $conn->prepare($sql);
+    $re = $stmt->execute([$id]);
+
+    if ($re) {
+        return 1;
+    } else {
+        return 0;
+    }
+}

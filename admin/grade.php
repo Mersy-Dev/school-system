@@ -7,10 +7,9 @@ if (
 
     if ($_SESSION["role"] == "Admin") {
         include "../DB-connection.php";
-        include "data/teacher.php";
-        include "data/subject.php";
+
         include "data/grade.php";
-        $teachers = getAllTeachers($conn);
+        $grades = getAllGrades($conn);
 
 ?>
 
@@ -20,7 +19,7 @@ if (
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Admin - Teachers</title>
+            <title>Admin - Grade</title>
             <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">">
             <link rel="stylesheet" href="../css/styles.css">
             <link rel="icon" href="../Minion.png">
@@ -32,21 +31,13 @@ if (
         <body class="">
             <?php
             include "inc/navbar.php";
-            if ($teachers != 0) {
+            if ($grades != 0) {
 
             ?>
 
                 <div class="container mt-5">
-                    <a href="teacher-add.php" class="btn btn-dark">Add New Teacher</a>
-
-                    <form action="teacher-search.php" class="mt-3 n-table" method="get">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="searchKey" placeholder="Search...">
-                            <button class="btn btn-primary">
-                                <i class="fa fa-search" aria-hidden="true"></i>  
-                            </button>
-                        </div>
-                    </form>
+                    <a href="grade-add.php" class="btn btn-dark">Add New Grade</a>
+                    
                     <?php if (isset($_GET['error'])) { ?>
                         <div class='alert alert-danger mt-3 n-table' role='alert'>
                             <?= $_GET['error'] ?>
@@ -66,56 +57,27 @@ if (
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">ID</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Subject</th>
                                     <th scope="col">Grade</th>
-                                    <th scope="col">Action</th>
+                                 
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i = 0;
-                                foreach ($teachers as $teacher) {
+                                foreach ($grades as $grade) {
                                     $i++; ?>
 
                                     <tr>
                                         <th scope="row"><?= $i ?></th>
-                                        <td><?= $teacher['teacher_id'] ?></td>
-                                        <td><a href="teacher-view.php?teacher_id=<?= $teacher['teacher_id'] ?>"><?= $teacher['fname'] ?></a></td>
-                                        <td><?= $teacher['lname'] ?></td>
-                                        <td><?= $teacher['username'] ?></td>
                                         <td>
-                                            <?php
-                                            $s = '';
-                                            $subjects = str_split(trim($teacher['subjects']));
-
-                                            foreach ($subjects as $subject) {
-                                                $s_temp = getSubjectById($subject, $conn);
-                                                if ($s_temp != 0)
-                                                    $s .= $s_temp['subject_code'] . ', ';
-                                            }
-                                            echo $s;
-                                            ?>
+                                           <?php
+                                                echo  $grade['grade_code'] . '- ' .
+                                                $grade['grade'];
+                                           ?>
                                         </td>
                                         <td>
-                                            <?php
-                                            $g = '';
-                                            $grades = str_split(trim($teacher['grades']));
-
-                                            foreach ($grades as $grade) {
-                                                $g_temp = getGradeById($grade, $conn);
-                                                if ($g_temp != 0)
-                                                    $g .= $g_temp['grade_code'] . '- ' .
-                                                        $g_temp['grade'] . ', ';
-                                            }
-                                            echo $g;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="teacher-edit.php?teacher_id=<?= $teacher['teacher_id'] ?>" class="btn btn-primary">Edit</a>
-                                            <a href="teacher-delete.php?teacher_id=<?= $teacher['teacher_id'] ?>" class="btn btn-danger">Delete</a>
+                                            <a href="grade-edit.php?grade_id=<?= $grade['grade_id'] ?>" class="btn btn-primary">Edit</a>
+                                            <a href="grade-delete.php?grade_id=<?= $grade['grade_id'] ?>" class="btn btn-danger">Delete</a>
 
                                         </td>
 
@@ -134,7 +96,7 @@ if (
 
                 <script>
                     $(document).ready(function() {
-                        $("#navLinks li:nth-child(2) a").addClass("active");
+                        $("#navLinks li:nth-child(4) a").addClass("active");
                     });
                 </script>
                 <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>"></script>

@@ -6,11 +6,14 @@ if (
 ) {
 
     if ($_SESSION["role"] == "Admin") {
+        if(isset($_GET['searchKey'])){
+
+        $search_key = $_GET['searchKey'];
         include "../DB-connection.php";
         include "data/teacher.php";
         include "data/subject.php";
         include "data/grade.php";
-        $teachers = getAllTeachers($conn);
+        $teachers = searchTeachers($search_key, $conn);
 
 ?>
 
@@ -20,7 +23,7 @@ if (
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Admin - Teachers</title>
+            <title>Admin - Teachers Search</title>
             <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">">
             <link rel="stylesheet" href="../css/styles.css">
             <link rel="icon" href="../Minion.png">
@@ -41,7 +44,7 @@ if (
 
                     <form action="teacher-search.php" class="mt-3 n-table" method="get">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="searchKey" placeholder="Search...">
+                            <input type="text" class="form-control" name="searchKey" value="<?=$search_key?>" placeholder="Search...">
                             <button class="btn btn-primary">
                                 <i class="fa fa-search" aria-hidden="true"></i>  
                             </button>
@@ -127,7 +130,10 @@ if (
                     </div>
                 <?php } else { ?>
                     <div class="alert alert-info .w-450 m-5" role="alert">
-                        empty
+                        No Result Found!
+                        <a href="teacher.php" class="btn btn-dark"> Go Back</a>
+
+
                     </div>
                 <?php } ?>
                 </div>
@@ -143,6 +149,11 @@ if (
         </html>
 
 <?php
+} else {
+    echo "Please log in first to see this page.";
+    header("Location: teacher.php");
+    exit;
+}
     } else {
         echo "Please log in first to see this page.";
         header("Location: ../login.php");

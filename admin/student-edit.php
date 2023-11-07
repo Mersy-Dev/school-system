@@ -8,18 +8,20 @@ if (
     if ($_SESSION["role"] == "Admin") {
         include "../DB-connection.php";
         include "data/student.php";
+        include "data/section.php";
         include "data/subject.php";
         include "data/grade.php";
         // $grades = getGradeById($conn);
         $subjects = getAllSubjects($conn);
         $grades = getAllGrades($conn);
+        $sections = getAllSections($conn);
         $student_id = $_GET["student_id"];
         $student = getStudentById($_GET["student_id"], $conn);
-        
+
         if ($student == 0) {
             header("Location: student.php");
             exit;
-        } 
+        }
 
 
 
@@ -74,41 +76,98 @@ if (
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control" name="address" value="<?= $student['address'] ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input type="text" class="form-control" name="email_address" value="<?= $student['email_address'] ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">D.O.B </label>
+                        <input type="date" class="form-control" name="date_of_birth" value="<?= $student['date_of_birth'] ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label> <br>
+                        <input type="radio" name="gender" value="male" <?php if($student['gender'] == 'Male') echo 'checked';?>> Male
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="gender" value="female" <?php if($student['gender'] == 'Female') echo 'checked';?>> Female
+                    </div>
+                        
+                    <div class="mb-3">
                         <label class="form-label">Username</label>
                         <input type="text" class="form-control" name="username" value="<?= $student['username'] ?>">
                     </div>
-                        <input type="text" value="<?= $student['student_id'] ?>" name="student_id" hidden >
+                    <input type="text" value="<?= $student['student_id'] ?>" name="student_id" hidden>
 
 
                     <div class="mb-3">
                         <label class="form-label">Grade</label>
                         <div class="row row-cols-5">
-                        <?php 
+                            <?php
                             $grade_ids = str_split(trim($student['grade']));
                             foreach ($grades as $grade) {
                                 $checked = 0;
                                 foreach ($grade_ids as $grade_id) {
                                     if ($grade['grade_id'] == $grade_id) {
                                         $checked = 1;
-                                    } 
+                                    }
                                 }
-                                 ?>
+                            ?>
                                 <div class="col">
-                                    <input type="radio" name="grade"
-                                    <?php if ($checked) echo "checked";?>
-                                     value="<?= $grade['grade_id'] ?>">
+                                    <input type="radio" name="grade" <?php if ($checked) echo "checked"; ?> value="<?= $grade['grade_id'] ?>">
                                     <?= $grade['grade_code'] ?> - <?= $grade['grade'] ?>
                                 </div>
                             <?php } ?>
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Section</label>
+                        <div class="row row-cols-5">
+                            <?php
+                            $section_ids = str_split(trim($student['section']));
+                            foreach ($sections as $section) {
+                                $checked = 0;
+                                foreach ($section_ids as $section_id) {
+                                    if ($section['section_id'] == $section_id) {
+                                        $checked = 1;
+                                    }
+                                }
+                            ?>
+                                <div class="col">
+                                    <input type="radio" name="section" <?php if ($checked) echo "checked"; ?> value="<?= $section['section_id'] ?>">
+                                    <?= $section['section'] ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                     <br><hr>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parent Firstname</label>
+                        <input type="text" class="form-control" name="parent_fname" value="<?= $student['parent_fname'] ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parent Lastname</label>
+                        <input type="text" class="form-control" name="parent_lname" value="<?= $student['parent_lname'] ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parent Phone NO.</label>
+                        <input type="text" class="form-control" name="parent_phone_number" value="<?= $student['parent_phone_number'] ?>">
+                    </div>
+                   
+
 
                     <button type="submit" class="btn btn-primary">Update</button>
 
                 </form>
                 <form method="post" action="req/student-change.php" class="shadow p-3 my-5 form-w" id="change_password">
-                <h3>Change Password</h3>
+                    <h3>Change Password</h3>
                     <hr>
                     <?php if (isset($_GET['perror'])) { ?>
                         <div class='alert alert-danger' role='alert'>
@@ -122,10 +181,10 @@ if (
                         </div>
                     <?php } ?>
                     <div class="mb-3">
-                    <div class="mb-3">
-                        <label class="form-label">Admin password</label>
+                        <div class="mb-3">
+                            <label class="form-label">Admin password</label>
                             <input type="password" class="form-control" name="admin_pass">
-                    </div>
+                        </div>
                         <label class="form-label"> New Password</label>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" name="new_pass" id="passInput">
@@ -134,12 +193,12 @@ if (
                         </div>
                     </div>
 
-                    <input type="text" value="<?= $student['student_id'] ?>" name="student_id" hidden >
+                    <input type="text" value="<?= $student['student_id'] ?>" name="student_id" hidden>
 
 
                     <div class="mb-3">
                         <label class="form-label">Confirm New Password</label>
-                            <input type="text" class="form-control" name="c_new_pass" id="passInput2">
+                        <input type="text" class="form-control" name="c_new_pass" id="passInput2">
                     </div>
                     <button type="submit" class="btn btn-primary">Change</button>
 

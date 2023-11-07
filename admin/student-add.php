@@ -7,18 +7,31 @@ if (
     if ($_SESSION["role"] == "Admin") {
         include "../DB-connection.php";
         include "data/grade.php";
+        include "data/section.php";
+
         $grades = getAllGrades($conn);
+        $sections = getAllSections($conn);
+        
 
 
         $fname = '';
         $lname = '';
         $uname = '';
+        $address = '';
+        $email = '';
+        $pfn = '';
+        $pln = '';
+        $ppn = '';
 
 
         if (isset($_GET['fname'])) $fname = $_GET['fname'];
         if (isset($_GET['lname'])) $lname = $_GET['lname'];
         if (isset($_GET['uname'])) $uname = $_GET['uname'];
-
+        if (isset($_GET['address'])) $address = $_GET['address'];
+        if (isset($_GET['email'])) $email = $_GET['email'];
+        if (isset($_GET['pfn'])) $pfn = $_GET['pfn'];
+        if (isset($_GET['pln'])) $pln = $_GET['pln'];
+        if (isset($_GET['ppn'])) $ppn = $_GET['ppn'];
 ?>
 
         <!DOCTYPE html>
@@ -69,6 +82,29 @@ if (
                         <input type="text" class="form-control" name="lname" value="<?=$lname?>">
                     </div>
 
+                  
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control" name="address" value="<?=$address?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email_address" value="<?=$email?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">D.O.B</label>
+                        <input type="date" class="form-control" name="date_of_birth" value="">
+                    </div> 
+
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label> <br>
+                        <input type="radio" name="gender" value="Male" checked> Male
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="gender" value="Female"> Female
+                    </div> <br><hr>
+
                     <div class="mb-3">
                         <label class="form-label">Username</label>
                         <input type="text" class="form-control" name="username" value="<?=$uname?>">
@@ -81,7 +117,22 @@ if (
                             <button class="btn btn-secondary" id="gBtn">Random</button>
 
                         </div>
+                    </div><br><hr>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parent Firstname</label>
+                        <input type="text" class="form-control" name="parent_fname" value="<?=$pfn?>">
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parent Lastname</label>
+                        <input type="text" class="form-control" name="parent_lname" value="<?=$pln?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Parent Phone NO.</label>
+                        <input type="text" class="form-control" name="parent_phone_number" value="<?=$ppn?>">
+                    </div><br><hr>
 
                     <div class="mb-3">
                         <label class="form-label">Grade</label>
@@ -95,8 +146,20 @@ if (
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Section</label>
+                        <div class="row row-cols-5">
+                            <?php foreach ($sections as $section) : ?>
+                                <div class="col">
+                                    <input type="radio" name="section" value="<?= $section['section_id'] ?>">
+                                    <?= $section['section'] ?>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
 
-                    <button type="submit" class="btn btn-primary">Add</button>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
 
                 </form>
             </div>
