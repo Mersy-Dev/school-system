@@ -7,23 +7,23 @@ if (
 ) {
     if ($_SESSION["role"] == "Admin") {
         include "../DB-connection.php";
-        include "data/teacher.php";
         include "data/subject.php";
-        include "data/section.php";
         include "data/grade.php";
+        include "data/section.php";
+        include "data/class.php";
+        include "data/teacher.php";
         // $grades = getGradeById($conn);
         $subjects = getAllSubjects($conn);
-        $grades = getAllGrades($conn);
-        $sections = getAllSections($conn);
-
-        $teacher_id = $_GET["teacher_id"];
-        $teacher = getTeacherById($_GET["teacher_id"], $conn);
+        $classes  = getAllClasses($conn);
+        
+        
+        $teacher_id = $_GET['teacher_id'];
+        $teacher = getTeacherById($teacher_id, $conn);
 
         if ($teacher == 0) {
             header("Location: teacher.php");
             exit;
         }
-
 
 
 ?>
@@ -113,9 +113,9 @@ if (
 
                     <div class="mb-3">
                         <label class="form-label">Gender</label> <br>
-                        <input type="radio" name="gender" value="male" <?php if($teacher['gender'] == 'Male') echo 'checked';?>> Male
+                        <input type="radio" name="gender" value="male" <?php if ($teacher['gender'] == 'Male') echo 'checked'; ?>> Male
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="gender" value="female" <?php if($teacher['gender'] == 'Female') echo 'checked';?>> Female
+                        <input type="radio" name="gender" value="female" <?php if ($teacher['gender'] == 'Female') echo 'checked'; ?>> Female
                     </div>
 
                     <input type="text" value="<?= $teacher['teacher_id'] ?>" name="teacher_id" hidden>
@@ -143,44 +143,24 @@ if (
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Grade</label>
+                        <label class="form-label">Class</label>
                         <div class="row row-cols-5">
                             <?php
-                            $grade_ids = str_split(trim($teacher['grades']));
-                            foreach ($grades as $grade) {
+                            $class_ids = str_split(trim($teacher['class']));
+                            foreach ($classes as $class) {
                                 $checked = 0;
-                                foreach ($grade_ids as $grade_id) {
-                                    if ($grade['grade_id'] == $grade_id) {
+                                foreach ($class_ids as $class_id) {
+                                    if ($class_id == $class['class_id']) {
                                         $checked = 1;
                                     }
                                 }
+                                $grade = getGradeById($class['class_id'], $conn);
                             ?>
                                 <div class="col">
-                                    <input type="checkbox" name="grades[]" <?php if ($checked) echo "checked"; ?> value="<?= $grade['grade_id'] ?>">
-                                    <?= $grade['grade_code'] ?> - <?= $grade['grade'] ?>
+                                    <input type="checkbox" name="classes[]" <?php if ($checked) echo "checked"; ?> value="<?= $grade['grade_id'] ?>">
+                                    <?= $grade['grade_code'] ?>-<?= $grade['grade'] ?>
                                 </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Section</label>
-                        <div class="row row-cols-5">
-                            <?php
-                            $section_ids = str_split(trim($teacher['section']));
-                            foreach ($sections as $section) {
-                                $checked = 0;
-                                foreach ($section_ids as $section_id) {
-                                    if ($section['section_id'] == $section_id) {
-                                        $checked = 1;
-                                    }
-                                }
-                            ?>
-                                <div class="col">
-                                    <input type="checkbox" name="sections[]" <?php if ($checked) echo "checked"; ?> value="<?= $section['section_id'] ?>">
-                                    <?= $section['section'] ?>
-                                </div>
-                            <?php } ?>
+                            <?php } ?>  <br>            
                         </div>
                     </div>
 

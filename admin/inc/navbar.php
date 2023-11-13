@@ -21,11 +21,11 @@
                     <a class="nav-link" href="grade.php">Grades </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Section </a>
+                    <a class="nav-link" href="section.php">Section </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Class </a>
+                    <a class="nav-link" href="class.php">Class </a>
                 </li>
                 
                 <li class="nav-item">

@@ -8,8 +8,8 @@ if (
     if ($_SESSION["role"] == "Admin") {
         include "../DB-connection.php";
 
-        include "data/grade.php";
-        $grades = getAllGrades($conn);
+        include "data/section.php";
+        $sections = getAllSections($conn);
 
 ?>
 
@@ -19,7 +19,7 @@ if (
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Admin - Grade</title>
+            <title>Admin - Section</title>
             <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">">
             <link rel="stylesheet" href="../css/styles.css">
             <link rel="icon" href="../Minion.png">
@@ -31,12 +31,12 @@ if (
         <body class="">
             <?php
             include "inc/navbar.php";
-            if ($grades != 0) {
+            if ($sections != 0) {
 
             ?>
 
                 <div class="container mt-5">
-                    <a href="grade-add.php" class="btn btn-dark">Add New Grade</a>
+                    <a href="section-add.php" class="btn btn-dark">Add New Section</a>
                     
                     <?php if (isset($_GET['error'])) { ?>
                         <div class='alert alert-danger mt-3 n-table' role='alert'>
@@ -56,28 +56,23 @@ if (
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <!-- <th scope="col">ID</th> -->
-                                    <th scope="col">Grade</th>
-                                 
-
+                                    <th scope="col">Sections</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 0;
-                                foreach ($grades as $grade) {
+                                <?php $i = 0; foreach ($sections as $section) {
                                     $i++; ?>
 
                                     <tr>
-                                        <th scope="row"><?= $i ?></th>
+                                        <th scope="row"><?=$i?></th>
                                         <td>
                                            <?php
-                                                echo  $grade['grade_code'] . '- ' .
-                                                $grade['grade'];
+                                                echo  $section['section'];
                                            ?>
                                         </td>
                                         <td>
-                                            <a href="grade-edit.php?grade_id=<?= $grade['grade_id'] ?>" class="btn btn-primary">Edit</a>
-                                            <a href="grade-delete.php?grade_id=<?= $grade['grade_id'] ?>" class="btn btn-danger">Delete</a>
+                                            <a href="section-edit.php?section_id=<?= $section['section_id'] ?>" class="btn btn-primary">Edit</a>
+                                            <a href="section-delete.php?section_id=<?= $section['section_id'] ?>" class="btn btn-danger">Delete</a>
 
                                         </td>
 
@@ -96,7 +91,7 @@ if (
 
                 <script>
                     $(document).ready(function() {
-                        $("#navLinks li:nth-child(4) a").addClass("active");
+                        $("#navLinks li:nth-child(5) a").addClass("active");
                     });
                 </script>
                 <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>"></script>

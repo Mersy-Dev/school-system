@@ -9,10 +9,14 @@ if (
         include "data/subject.php";
         include "data/grade.php";
         include "data/section.php";
+        include "data/class.php";
+
+
         // $grades = getGradeById($conn);
         $subjects = getAllSubjects($conn);
-        $grades = getAllGrades($conn);
-        $sections = getAllSections($conn);
+        $classes = getAllClasses($conn);
+
+
 
 
         $fname = '';
@@ -153,24 +157,17 @@ if (
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Grade</label>
+                        <label class="form-label">Class</label>
                         <div class="row row-cols-5">
-                            <?php foreach ($grades as $grade) : ?>
+                            <?php foreach ($classes as $class) : ?>
                                 <div class="col">
-                                    <input type="checkbox" name="grades[]" value="<?= $grade['grade_id'] ?>">
-                                    <?= $grade['grade_code'] ?> - <?= $grade['grade'] ?>
-                                </div>
-                            <?php endforeach ?>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Section</label>
-                        <div class="row row-cols-5">
-                            <?php foreach ($sections as $section) : ?>
-                                <div class="col">
-                                    <input type="checkbox" name="section[]" value="<?= $section['section_id'] ?>">
-                                    <?= $section['section'] ?>
+                                    <input type="checkbox" name="classes[]" value="<?= $class['class_id'] ?>">
+                                    <?php 
+                                        $grade = getGradeById($class['grade'], $conn);
+                                        $section = getSectionById($class['section'], $conn);
+                                    
+                                    ?>
+                                    <?= $grade['grade_code']?> - <?= $grade['grade']. $section['section'] ?>
                                 </div>
                             <?php endforeach ?>
                         </div>

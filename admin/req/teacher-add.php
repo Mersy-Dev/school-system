@@ -16,11 +16,9 @@ if (isset($_SESSION["admin_id"]) &&
         isset($_POST['phone_number'])    &&
         isset($_POST['qualification'])   &&
         isset($_POST['email_address'])   &&
-        isset($_POST['gender'])          &&
-        isset($_POST['date_of_birth'])   &&
-        isset($_POST['section'])         &&
-        isset($_POST['subjects'])        &&
-        isset($_POST['grades'])){
+        isset($_POST['classes'])          &&
+        isset($_POST['date_of_birth'])    &&
+        isset($_POST['subjects'])){
 
             include '../../DB-connection.php';
             include '../data/teacher.php';
@@ -42,9 +40,9 @@ if (isset($_SESSION["admin_id"]) &&
 
 
 
-            $grades = "";
-            foreach ($_POST['grades'] as $grade) {
-                $grades .= $grade . ",";
+            $classes = "";
+            foreach ($_POST['classes'] as $class) {
+                $classes .= $class . ",";
             }
              
             $subjects = "";
@@ -52,12 +50,7 @@ if (isset($_SESSION["admin_id"]) &&
                 $subjects .= $subject . ",";
             }
 
-            $sections = "";
-            foreach ($_POST['section'] as $section) {
-                $sections .= $section . ",";
-            }
-
-            $data = 'uname=' . $uname.'&fname='.$fname.'&lname='.$lname.'&address='.$address.'&en='.$employee_number.'&pn='.$phone_number.'&qual='.$qualification.'&email='.$email_address.'&gender='.$gender.'&dob='.$date_of_birth.'&grades='.$grades.'&subjects='.$subjects.'&sections='.$sections;
+            $data = 'uname=' . $uname.'&fname='.$fname.'&lname='.$lname.'&address='.$address.'&en='.$employee_number.'&pn='.$phone_number.'&qual='.$qualification.'&email='.$email_address;
             if (empty($fname)) {
                 $em = "FIrstname is required";
                 header("Location: ../teacher-add.php?error=$em&$data");
@@ -114,11 +107,11 @@ if (isset($_SESSION["admin_id"]) &&
                 //hashing the password
                   $pass = password_hash($pass, PASSWORD_DEFAULT);
 
-                  $sql = "INSERT INTO teachers (username, password, fname, lname, subjects, grades, section, address, employee_number, date_of_birth, phone_number, qualification, gender, email_address) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                  $sql = "INSERT INTO teachers (username, password, class, fname, lname, subjects, address, employee_number, date_of_birth, phone_number, qualification, gender, email_address) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     
                   $stmt = $conn->prepare($sql);
-                  $stmt->execute([$uname, $pass, $fname, $lname, $subjects, $grades, $sections, $address, $employee_number, $date_of_birth, $phone_number, $qualification, $gender, $email_address ]);
+                  $stmt->execute([$uname, $pass, $classes, $fname, $lname, $subjects, $address, $employee_number, $date_of_birth, $phone_number, $qualification, $gender, $email_address ]);
              
                   $sm = " New Teacher has registered successfully";
                   header("Location: ../teacher-add.php?success=$sm"); 
