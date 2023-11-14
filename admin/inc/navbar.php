@@ -31,15 +31,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="registrar-office.php">Registrar-Office </a>
                 </li>
-                
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="#contact">Schedule </a>
-                </li> -->
+
                 <li class="nav-item">
                     <a class="nav-link" href="course.php">Courses </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Messages </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Settings </a>
