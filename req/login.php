@@ -33,9 +33,12 @@ if (
         } else if ($role == "2") {
             $sql = "SELECT * FROM teachers WHERE username=?";
             $role = "Teacher";
-        } else {
+        } elseif ($role == "3") {
             $sql = "SELECT * FROM students WHERE username=?";
             $role = "Student";
+        } elseif ($role == "4 ") {
+            $sql = "SELECT * FROM registrar_office WHERE username=?";
+            $role = "Registrar Office";
         }
 
         $stmt = $conn->prepare($sql);
@@ -45,17 +48,22 @@ if (
             $user = $stmt->fetch();
             $username = $user['username'];
             $password = $user['password'];
-            $fname = $user['fname'];
+
             if ($username === $uname) {
                 if (password_verify($pass, $password)) {
 
-                    $_SESSION['fname'] = $fname;
                     $_SESSION['role'] = $role;
                     if ($role == "Admin") {
                         $id = $user['admin_id'];
                         $_SESSION['admin_id'] = $id;
 
                         header("Location: ../admin/index.php");
+                        exit;
+                    }else if ($role == "Registrar Office") {
+                        $id = $user['r_user_id'];
+                        $_SESSION['r_user_id'] = $id;
+
+                        header("Location: ../RegistrarOffice/index.php");
                         exit;
                     }
                 } else {
