@@ -32,11 +32,11 @@
                     <a class="nav-link" href="registrar-office.php">Registrar-Office </a>
                 </li>
                 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="#contact">Schedule </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Courses </a>
+                    <a class="nav-link" href="course.php">Courses </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Messages </a>
